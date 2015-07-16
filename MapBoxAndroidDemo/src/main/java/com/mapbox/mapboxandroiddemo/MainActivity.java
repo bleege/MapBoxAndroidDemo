@@ -17,7 +17,6 @@ import com.crashlytics.android.Crashlytics;
 import com.mapbox.mapboxsdk.api.ILatLng;
 import com.mapbox.mapboxsdk.geometry.BoundingBox;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.overlay.GpsLocationProvider;
 import com.mapbox.mapboxsdk.overlay.Icon;
 import com.mapbox.mapboxsdk.overlay.Marker;
 import com.mapbox.mapboxsdk.overlay.UserLocationOverlay;
@@ -45,30 +44,40 @@ public class MainActivity extends ActionBarActivity {
 		mv.setZoom(0);
 		currentMap = getString(R.string.streetMapId);
 
-		// Adds an icon that shows location
-		myLocationOverlay = new UserLocationOverlay(new GpsLocationProvider(this), mv);
-		myLocationOverlay.setDrawAccuracyEnabled(true);
-		mv.getOverlays().add(myLocationOverlay);
+		// Show user location (purposely not in follow mode)
+        mv.setUserLocationEnabled(true);
 
 		mv.loadFromGeoJSONURL("https://gist.githubusercontent.com/tmcw/10307131/raw/21c0a20312a2833afeee3b46028c3ed0e9756d4c/map.geojson");
 //        setButtonListeners();
         Marker m = new Marker(mv, "Edinburgh", "Scotland", new LatLng(55.94629, -3.20777));
-        m.setIcon(new Icon(this, Icon.Size.SMALL, "marker-stroked", "FF0000"));
+        m.setIcon(new Icon(this, Icon.Size.SMALL, "marker-stroked", "ee8a65"));
         mv.addMarker(m);
 
         m = new Marker(mv, "Stockholm", "Sweden", new LatLng(59.32995, 18.06461));
-        m.setIcon(new Icon(this, Icon.Size.MEDIUM, "city", "FFFF00"));
+        m.setIcon(new Icon(this, Icon.Size.LARGE, "city", "3887be"));
         mv.addMarker(m);
 
         m = new Marker(mv, "Prague", "Czech Republic", new LatLng(50.08734, 14.42112));
-        m.setIcon(new Icon(this, Icon.Size.LARGE, "land-use", "00FFFF"));
-        mv.addMarker(m);
-
-        m = new Marker(mv, "Prague2", "Czech Republic", new LatLng(50.0875, 14.42112));
-        m.setIcon(new Icon(getBaseContext(), Icon.Size.LARGE, "land-use", "00FF00"));
+        m.setIcon(new Icon(this, Icon.Size.MEDIUM, "land-use", "3bb2d0"));
         mv.addMarker(m);
 
         m = new Marker(mv, "Athens", "Greece", new LatLng(37.97885, 23.71399));
+        mv.addMarker(m);
+
+        m = new Marker(mv, "Tokyo", "Japan", new LatLng(35.70247, 139.71588));
+        m.setIcon(new Icon(this, Icon.Size.LARGE, "city", "3887be"));
+        mv.addMarker(m);
+
+        m = new Marker(mv, "Ayacucho", "Peru", new LatLng(-13.16658, -74.21608));
+        m.setIcon(new Icon(this, Icon.Size.LARGE, "city", "3887be"));
+        mv.addMarker(m);
+
+        m = new Marker(mv, "Nairobi", "Kenya", new LatLng(-1.26676, 36.83372));
+        m.setIcon(new Icon(this, Icon.Size.LARGE, "city", "3887be"));
+        mv.addMarker(m);
+
+        m = new Marker(mv, "Canberra", "Australia", new LatLng(-35.30952, 149.12430));
+        m.setIcon(new Icon(this, Icon.Size.LARGE, "city", "3887be"));
         mv.addMarker(m);
 
         mv.setOnTilesLoadedListener(new TilesLoadedListener() {
@@ -94,20 +103,6 @@ public class MainActivity extends ActionBarActivity {
 				startActivity(i);
 			}
 		});
-	}
-
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		myLocationOverlay.enableMyLocation();
-	}
-
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-		myLocationOverlay.disableMyLocation();
 	}
 
 	@Override
